@@ -6,8 +6,7 @@
 
 Флаги:
   --dry-run   ничего не шлёт, только заполняет seen.json
-  --reset     перед сканом чистит тему 17 в целевой группе и обнуляет seen.json
-              (filtered_ids.json не трогает)
+  --reset     перед сканом чистит тему 17 в целевой группе и обнуляет state/*.json
 """
 import argparse
 import asyncio
@@ -120,7 +119,7 @@ async def main() -> int:
     parser.add_argument("--dry-run", action="store_true",
                         help="Только заполнить seen.json по текущим совпадениям, ничего не слать")
     parser.add_argument("--reset", action="store_true",
-                        help="Очистить тему и обнулить seen.json перед сканом")
+                        help="Очистить тему и обнулить state/*.json перед сканом")
     args = parser.parse_args()
 
     load_dotenv()
@@ -140,7 +139,9 @@ async def main() -> int:
             print(f"удалено из темы: {removed}", flush=True)
             if SEEN_FILE.exists():
                 SEEN_FILE.unlink()
-            print("seen.json сброшен", flush=True)
+            if FILTERED_FILE.exists():
+                FILTERED_FILE.unlink()
+            print("state/*.json сброшены", flush=True)
 
         seen = _load_set(SEEN_FILE)
         filtered_ids = _load_set(FILTERED_FILE)
