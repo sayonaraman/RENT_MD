@@ -37,7 +37,10 @@ STATE_DIR = Path(__file__).parent / "state"
 SEEN_FILE = STATE_DIR / "seen.json"
 FILTERED_FILE = STATE_DIR / "filtered_ids.json"
 
-DISTRICT_RE = re.compile(r"рышкан|рышкановк|rîșcan|râșcan|riscan|ryscan", re.IGNORECASE)
+DISTRICT_RE = re.compile(
+    r"рышкан|рышкановк|rîșcan|râșcan|riscan|ryscan|чекан|ciocan|checani|cecan",
+    re.IGNORECASE,
+)
 
 ROOMS_RES = [
     re.compile(r"\b([123])\s*[-–—]?\s*комн", re.IGNORECASE),
