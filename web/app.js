@@ -370,7 +370,11 @@ function openListing(id) {
         <h3>${item.title}</h3>
         <div class="dialog-address-row">
           <a class="map-link" href="${mapsUrl}" target="_blank" rel="noreferrer" aria-label="Открыть адрес на карте">
-            <span aria-hidden="true">⌖</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 21s7-5.4 7-12a7 7 0 0 0-14 0c0 6.6 7 12 7 12Z" />
+              <circle cx="12" cy="9" r="2.4" />
+            </svg>
+            <span>Карта</span>
           </a>
           <div>
             <span>${item.district} · ${item.address}</span>

@@ -654,7 +654,7 @@ select:focus {
 
 .dialog-address-row {
   display: grid;
-  grid-template-columns: 42px minmax(0, 1fr);
+  grid-template-columns: 76px minmax(0, 1fr);
   gap: 12px;
   align-items: center;
   margin: 18px 0 20px;
@@ -678,14 +678,24 @@ select:focus {
 }
 
 .map-link {
-  width: 42px;
+  width: 76px;
   height: 42px;
-  display: grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   border: 1px solid rgba(181, 138, 50, 0.45);
   color: var(--gold-deep);
   text-decoration: none;
-  font-size: 24px;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.map-link svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
 }
 
 .map-link:hover,
