@@ -37,7 +37,7 @@ SEEN_FILE = STATE_DIR / "seen.json"
 FILTERED_FILE = STATE_DIR / "filtered_ids.json"
 
 DISTRICT_RE = re.compile(
-    r"рышкан|рышкановк|rîșcan|râșcan|riscan|ryscan|чекан|ciocan|checani|cecan",
+    r"рышкан|рышкановк|rîșcan|râșcan|riscan|ryscan|чекан|чокан|ciocan|checani|cecan",
     re.IGNORECASE,
 )
 

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rent MD Collection</title>
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Rent MD Collection">
+          <span class="brand-mark">R</span>
+          <span>
+            <strong>Rent MD</strong>
+            <small>Private Collection</small>
+          </span>
+        </a>
+        <nav class="nav">
+          <a href="#catalog">Каталог</a>
+          <a href="#insights">Спрос</a>
+          <a href="#contact">Telegram</a>
+        </nav>
+        <button class="ghost-button" id="resetTop">Сбросить</button>
+      </header>
+
+      <main>
+        <section class="workspace" id="catalog">
+          <aside class="filters" aria-label="Фильтры">
+            <div class="filters-head">
+              <span>Подбор</span>
+              <strong id="resultCount">0</strong>
+            </div>
+
+            <label class="field">
+              <span>Поиск</span>
+              <input id="searchInput" type="search" placeholder="Улица, район, особенность" />
+            </label>
+
+            <label class="field">
+              <span>Район</span>
+              <select id="districtFilter">
+                <option value="all">Все районы</option>
+              </select>
+            </label>
+
+            <div class="range-grid">
+              <label class="field">
+                <span>Цена от</span>
+                <input id="minPrice" type="number" min="0" step="50" placeholder="300" />
+              </label>
+              <label class="field">
+                <span>До</span>
+                <input id="maxPrice" type="number" min="0" step="50" placeholder="900" />
+              </label>
+            </div>
+
+            <div class="field">
+              <span>Комнаты</span>
+              <div class="segmented" id="roomsFilter">
+                <button class="is-active" data-value="all">Все</button>
+                <button data-value="1">1</button>
+                <button data-value="2">2</button>
+                <button data-value="3">3</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <span>Статус</span>
+              <div class="segmented stacked" id="statusFilter">
+                <button class="is-active" data-value="all">Все</button>
+                <button data-value="active">Свободна</button>
+                <button data-value="reserved">Бронь</button>
+              </div>
+            </div>
+
+            <label class="toggle">
+              <input id="petsFilter" type="checkbox" />
+              <span>Можно с животными</span>
+            </label>
+
+            <label class="toggle">
+              <input id="kidsFilter" type="checkbox" />
+              <span>Можно с детьми</span>
+            </label>
+
+            <label class="toggle">
+              <input id="newBuildFilter" type="checkbox" />
+              <span>Новострой</span>
+            </label>
+          </aside>
+
+          <section class="catalog-panel">
+            <div class="catalog-head">
+              <div>
+                <p class="eyebrow">Telegram listings, curated</p>
+                <h1>Премиальная аренда Кишинева</h1>
+              </div>
+              <div class="toolbar">
+                <select id="sortFilter" aria-label="Сортировка">
+                  <option value="fresh">Сначала новые</option>
+                  <option value="priceAsc">Цена по возрастанию</option>
+                  <option value="priceDesc">Цена по убыванию</option>
+                  <option value="areaDesc">Больше площадь</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="market-strip" id="insights">
+              <div>
+                <span>Средняя цена</span>
+                <strong id="avgPrice">0 EUR</strong>
+              </div>
+              <div>
+                <span>Свободно</span>
+                <strong id="activeCount">0</strong>
+              </div>
+              <div>
+                <span>Районы</span>
+                <strong id="districtCount">0</strong>
+              </div>
+            </div>
+
+            <div class="listing-grid" id="listingGrid"></div>
+            <div class="empty-state" id="emptyState" hidden>
+              <strong>Нет объявлений под выбранные фильтры</strong>
+              <span>Измени район, цену или статус.</span>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <dialog class="listing-dialog" id="listingDialog">
+      <button class="close-dialog" id="closeDialog" aria-label="Закрыть">×</button>
+      <div id="dialogContent"></div>
+    </dialog>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
