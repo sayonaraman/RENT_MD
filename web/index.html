@@ -47,10 +47,10 @@
             <div class="field">
               <span>Комнаты</span>
               <div class="segmented" id="roomsFilter">
-                <button class="is-active" data-value="all">Все</button>
-                <button data-value="1">1</button>
-                <button data-value="2">2</button>
-                <button data-value="3">3</button>
+                <button type="button" class="is-active" data-value="all">Все</button>
+                <button type="button" data-value="1">1</button>
+                <button type="button" data-value="2">2</button>
+                <button type="button" data-value="3">3</button>
               </div>
             </div>
 
@@ -71,36 +71,6 @@
           </aside>
 
           <section class="catalog-panel">
-            <div class="catalog-head">
-              <div>
-                <p class="eyebrow">Telegram listings, curated</p>
-                <h2>Каталог</h2>
-              </div>
-              <div class="toolbar">
-                <select id="sortFilter" aria-label="Сортировка">
-                  <option value="fresh">Сначала новые</option>
-                  <option value="priceAsc">Цена по возрастанию</option>
-                  <option value="priceDesc">Цена по убыванию</option>
-                  <option value="areaDesc">Больше площадь</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="market-strip" id="insights">
-              <div>
-                <span>Средняя цена</span>
-                <strong id="avgPrice">0 EUR</strong>
-              </div>
-              <div>
-                <span>Свободно</span>
-                <strong id="activeCount">0</strong>
-              </div>
-              <div>
-                <span>Районы</span>
-                <strong id="districtCount">0</strong>
-              </div>
-            </div>
-
             <div class="listing-grid" id="listingGrid"></div>
             <div class="empty-state" id="emptyState" hidden>
               <strong>Нет объявлений под выбранные фильтры</strong>

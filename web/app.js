@@ -171,12 +171,12 @@ const state = {
   pets: false,
   kids: false,
   newBuild: false,
-  sort: "fresh",
 };
 
 const els = {
   grid: document.querySelector("#listingGrid"),
   resultCount: document.querySelector("#resultCount"),
+  visibleCount: document.querySelector("#visibleCount"),
   avgPrice: document.querySelector("#avgPrice"),
   activeCount: document.querySelector("#activeCount"),
   districtCount: document.querySelector("#districtCount"),
@@ -235,20 +235,16 @@ function getFilteredListings() {
     );
   });
 
-  return filtered.sort((a, b) => {
-    if (state.sort === "priceAsc") return a.price - b.price;
-    if (state.sort === "priceDesc") return b.price - a.price;
-    if (state.sort === "areaDesc") return b.area - a.area;
-    return new Date(b.date) - new Date(a.date);
-  });
+  return filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
 function renderStats(items) {
   const avg = items.length ? Math.round(items.reduce((sum, item) => sum + item.price, 0) / items.length) : 0;
   els.resultCount.textContent = items.length;
-  els.avgPrice.textContent = formatPrice(avg);
-  els.activeCount.textContent = items.filter((item) => item.status === "active").length;
-  els.districtCount.textContent = new Set(items.map((item) => item.district)).size;
+  if (els.visibleCount) els.visibleCount.textContent = items.length;
+  if (els.avgPrice) els.avgPrice.textContent = formatPrice(avg);
+  if (els.activeCount) els.activeCount.textContent = items.filter((item) => item.status === "active").length;
+  if (els.districtCount) els.districtCount.textContent = new Set(items.map((item) => item.district)).size;
 }
 
 function renderListings() {
@@ -309,7 +305,6 @@ function resetFilters() {
     pets: false,
     kids: false,
     newBuild: false,
-    sort: "fresh",
   });
 
   els.district.value = "all";
@@ -318,7 +313,7 @@ function resetFilters() {
   els.pets.checked = false;
   els.kids.checked = false;
   els.newBuild.checked = false;
-  els.sort.value = "fresh";
+  if (els.sort) els.sort.value = "fresh";
   if (els.search) els.search.value = "";
   setSegment(els.rooms, "all");
   setSegment(els.status, "all");
@@ -400,10 +395,12 @@ function bindEvents() {
     state.newBuild = event.target.checked;
     renderListings();
   });
-  els.sort.addEventListener("change", (event) => {
-    state.sort = event.target.value;
-    renderListings();
-  });
+  if (els.sort) {
+    els.sort.addEventListener("change", (event) => {
+      state.sort = event.target.value;
+      renderListings();
+    });
+  }
   els.resetTop.addEventListener("click", resetFilters);
   els.grid.addEventListener("click", (event) => {
     const button = event.target.closest("[data-open]");
