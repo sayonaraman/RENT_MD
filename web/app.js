@@ -6,7 +6,6 @@ const listings = [
     address: "str. Ginta Latina 21",
     price: 390,
     rooms: 1,
-    area: 44,
     floor: "4/9",
     status: "active",
     date: "2026-05-03",
@@ -26,7 +25,6 @@ const listings = [
     address: "Maria Dragan 38/2",
     price: 500,
     rooms: 2,
-    area: 62,
     floor: "8/12",
     status: "active",
     date: "2026-05-03",
@@ -46,7 +44,6 @@ const listings = [
     address: "ул. Джинтэ Латинэ 16/12",
     price: 450,
     rooms: 1,
-    area: 47,
     floor: "9/12",
     status: "active",
     date: "2026-05-03",
@@ -66,7 +63,6 @@ const listings = [
     address: "str. Петру Заднипру",
     price: 600,
     rooms: 1,
-    area: 50,
     floor: "6/10",
     status: "active",
     date: "2026-05-03",
@@ -86,7 +82,6 @@ const listings = [
     address: "str. Florilor 30/2",
     price: 600,
     rooms: 2,
-    area: 58,
     floor: "2/5",
     status: "active",
     date: "2026-05-03",
@@ -106,7 +101,6 @@ const listings = [
     address: "str. Димо 1/1",
     price: 550,
     rooms: 1,
-    area: 52,
     floor: "3/5",
     status: "active",
     date: "2026-05-03",
@@ -126,7 +120,6 @@ const listings = [
     address: "str. Mircea cel Batran 41/A",
     price: 650,
     rooms: 1,
-    area: 55,
     floor: "10/15",
     status: "reserved",
     date: "2026-05-02",
@@ -146,7 +139,6 @@ const listings = [
     address: "str. Kiev 12/1",
     price: 450,
     rooms: 2,
-    area: 54,
     floor: "4/5",
     status: "active",
     date: "2026-05-02",
@@ -161,6 +153,13 @@ const listings = [
   },
 ];
 
+const galleryImages = [
+  "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85",
+  "https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?auto=format&fit=crop&w=1200&q=85",
+  "https://images.unsplash.com/photo-1560185007-c5ca9d2c014d?auto=format&fit=crop&w=1200&q=85",
+  "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&q=85",
+];
+
 const state = {
   search: "",
   district: "all",
@@ -171,6 +170,8 @@ const state = {
   pets: false,
   kids: false,
   newBuild: false,
+  activePhotos: [],
+  activePhotoIndex: 0,
 };
 
 const els = {
@@ -281,7 +282,7 @@ function renderListings() {
   renderStats(items);
   els.empty.hidden = items.length > 0;
   els.grid.innerHTML = items.map((item) => `
-    <article class="listing-card">
+    <article class="listing-card" data-open="${item.id}" tabindex="0" role="button" aria-label="Открыть ${item.title}">
       <div class="image-wrap">
         <img src="${item.image}" alt="${item.title}" loading="lazy" />
         <div class="badge-row">
@@ -301,15 +302,10 @@ function renderListings() {
         <div class="district">${item.address}</div>
         <div class="meta">
           <span><strong>${item.rooms}</strong>комнат</span>
-          <span><strong>${item.area} м²</strong>площадь</span>
           <span><strong>${item.floor}</strong>этаж</span>
         </div>
         <div class="features">
           ${item.features.map((feature) => `<span>${feature}</span>`).join("")}
-        </div>
-        <div class="card-actions">
-          <button class="primary-button" data-open="${item.id}">Смотреть</button>
-          <a class="telegram-button" href="${item.source}" target="_blank" rel="noreferrer">Telegram</a>
         </div>
       </div>
     </article>
@@ -353,9 +349,25 @@ function resetFilters() {
 function openListing(id) {
   const item = listings.find((listing) => listing.id === Number(id));
   if (!item) return;
+  const photos = [item.image, ...galleryImages.filter((image) => image !== item.image)].slice(0, 4);
+  state.activePhotos = photos;
+  state.activePhotoIndex = 0;
   els.dialogContent.innerHTML = `
     <div class="dialog-layout">
-      <img src="${item.image}" alt="${item.title}" />
+      <section class="dialog-gallery">
+        <div class="dialog-photo-stage">
+          <img class="dialog-main-image" src="${photos[0]}" alt="${item.title}" />
+          <button type="button" class="gallery-arrow prev" data-gallery-step="-1" aria-label="Предыдущее фото">‹</button>
+          <button type="button" class="gallery-arrow next" data-gallery-step="1" aria-label="Следующее фото">›</button>
+        </div>
+        <div class="dialog-thumbs">
+          ${photos.map((photo, index) => `
+            <button type="button" class="${index === 0 ? "is-active" : ""}" data-photo="${photo}" aria-label="Фото ${index + 1}">
+              <img src="${photo}" alt="" />
+            </button>
+          `).join("")}
+        </div>
+      </section>
       <section class="dialog-info">
         <span class="status ${item.status}">${statusLabel(item.status)}</span>
         <h2>${formatPrice(item.price)}</h2>
@@ -365,17 +377,24 @@ function openListing(id) {
         <div class="detail-list">
           <div><span>Адрес</span><strong>${item.address}</strong></div>
           <div><span>Комнаты</span><strong>${item.rooms}</strong></div>
-          <div><span>Площадь</span><strong>${item.area} м²</strong></div>
           <div><span>Этаж</span><strong>${item.floor}</strong></div>
         </div>
         <div class="features">${item.features.map((feature) => `<span>${feature}</span>`).join("")}</div>
-        <div class="card-actions">
-          <a class="telegram-button" href="${item.source}" target="_blank" rel="noreferrer">Открыть в Telegram</a>
-        </div>
       </section>
     </div>
   `;
   els.dialog.showModal();
+}
+
+function showGalleryPhoto(index) {
+  if (!state.activePhotos.length) return;
+  state.activePhotoIndex = (index + state.activePhotos.length) % state.activePhotos.length;
+  const photo = state.activePhotos[state.activePhotoIndex];
+  const mainImage = els.dialogContent.querySelector(".dialog-main-image");
+  if (mainImage) mainImage.src = photo;
+  [...els.dialogContent.querySelectorAll(".dialog-thumbs button")].forEach((button, buttonIndex) => {
+    button.classList.toggle("is-active", buttonIndex === state.activePhotoIndex);
+  });
 }
 
 function bindEvents() {
@@ -457,8 +476,30 @@ function bindEvents() {
   }
   if (els.resetTop) els.resetTop.addEventListener("click", resetFilters);
   els.grid.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-open]");
-    if (button) openListing(button.dataset.open);
+    const card = event.target.closest("[data-open]");
+    if (card) openListing(card.dataset.open);
+  });
+  els.grid.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    const card = event.target.closest("[data-open]");
+    if (!card) return;
+    event.preventDefault();
+    openListing(card.dataset.open);
+  });
+  els.dialogContent.addEventListener("click", (event) => {
+    const arrow = event.target.closest("[data-gallery-step]");
+    if (arrow) {
+      showGalleryPhoto(state.activePhotoIndex + Number(arrow.dataset.galleryStep));
+      return;
+    }
+    const thumb = event.target.closest("[data-photo]");
+    if (!thumb) return;
+    showGalleryPhoto(state.activePhotos.indexOf(thumb.dataset.photo));
+  });
+  document.addEventListener("keydown", (event) => {
+    if (!els.dialog.open) return;
+    if (event.key === "ArrowLeft") showGalleryPhoto(state.activePhotoIndex - 1);
+    if (event.key === "ArrowRight") showGalleryPhoto(state.activePhotoIndex + 1);
   });
   els.closeDialog.addEventListener("click", () => els.dialog.close());
 }
