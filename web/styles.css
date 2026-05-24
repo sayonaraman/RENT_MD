@@ -313,13 +313,17 @@ select:focus {
   background: #fbf5e8;
   box-shadow: 0 18px 48px rgba(24, 19, 11, 0.08);
   transform-origin: center;
-  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+  transition:
+    transform 420ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 420ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 420ms ease;
+  will-change: transform;
 }
 
 .listing-card:hover {
-  transform: scale(1.018);
+  transform: scale(1.012);
   border-color: rgba(228, 196, 111, 0.92);
-  box-shadow: 0 34px 76px rgba(24, 19, 11, 0.2);
+  box-shadow: 0 30px 68px rgba(24, 19, 11, 0.18);
 }
 
 .image-wrap {
