@@ -290,12 +290,11 @@ function renderListings() {
         <div class="card-top">
           <div>
             <div class="price">${formatPrice(item.price)}</div>
-            <div class="district">${item.district}</div>
           </div>
           <div class="district">${new Date(item.date).toLocaleDateString("ru-RU")}</div>
         </div>
         <h2>${item.title}</h2>
-        <div class="district">${item.address}</div>
+        <div class="district">${item.district} · ${item.address}</div>
         <div class="meta">
           <span><strong>${item.rooms}</strong>комнат</span>
           <span><strong>${item.floor}</strong>этаж</span>
