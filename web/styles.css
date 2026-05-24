@@ -295,10 +295,16 @@ select:focus {
   text-align: left;
 }
 
-.select-menu button:hover,
 .select-menu button[aria-selected="true"] {
+  color: var(--gold);
+  box-shadow: inset 2px 0 0 var(--gold);
+}
+
+.select-menu button:hover,
+.select-menu button:focus-visible {
   background: var(--gold);
   color: #120e08;
+  box-shadow: none;
 }
 
 .segmented {
