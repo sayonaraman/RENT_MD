@@ -654,7 +654,7 @@ select:focus {
 
 .dialog-address-row {
   display: grid;
-  grid-template-columns: 76px minmax(0, 1fr);
+  grid-template-columns: 42px minmax(0, 1fr);
   gap: 12px;
   align-items: center;
   margin: 18px 0 20px;
@@ -678,30 +678,43 @@ select:focus {
 }
 
 .map-link {
-  width: 76px;
+  width: 42px;
   height: 42px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
+  display: grid;
+  place-items: center;
   border: 1px solid rgba(181, 138, 50, 0.45);
   color: var(--gold-deep);
   text-decoration: none;
-  font-size: 12px;
-  font-weight: 800;
-  text-transform: uppercase;
 }
 
 .map-link svg {
-  width: 16px;
-  height: 16px;
+  width: 26px;
+  height: 26px;
+}
+
+.pin-shape {
   fill: currentColor;
+}
+
+.pin-hole {
+  fill: #120e08;
+}
+
+.pin-ring {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  opacity: 0.45;
+}
+
+.ring-2 {
+  opacity: 0.75;
 }
 
 .map-link:hover,
 .map-link:focus-visible {
   background: var(--gold);
-  color: #120e08;
+  color: var(--gold-deep);
 }
 
 @media (max-width: 1180px) {

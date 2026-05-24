@@ -366,15 +366,15 @@ function openListing(id) {
       </section>
       <section class="dialog-info">
         <h2>${formatPrice(item.price)}</h2>
-        <p class="eyebrow">${item.district}</p>
         <h3>${item.title}</h3>
         <div class="dialog-address-row">
           <a class="map-link" href="${mapsUrl}" target="_blank" rel="noreferrer" aria-label="Открыть адрес на карте">
-            <svg aria-hidden="true" viewBox="0 0 24 24">
-              <path d="M12 21s7-5.4 7-12a7 7 0 0 0-14 0c0 6.6 7 12 7 12Z" />
-              <circle cx="12" cy="9" r="2.4" />
+            <svg aria-hidden="true" viewBox="0 0 32 32" class="map-pin-icon">
+              <path class="pin-shape" d="M16 3.2c-5 0-9 4-9 9 0 7.1 9 16.2 9 16.2s9-9.1 9-16.2c0-5-4-9-9-9Z" />
+              <circle class="pin-hole" cx="16" cy="12.2" r="3.3" />
+              <ellipse class="pin-ring ring-1" cx="16" cy="27.2" rx="8.8" ry="2.2" />
+              <ellipse class="pin-ring ring-2" cx="16" cy="27.2" rx="5.4" ry="1.2" />
             </svg>
-            <span>Карта</span>
           </a>
           <div>
             <span>${item.district} · ${item.address}</span>
