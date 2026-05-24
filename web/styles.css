@@ -159,7 +159,7 @@ h1 {
   gap: 30px;
   padding: 16px clamp(16px, 4vw, 64px) 72px;
   background:
-    linear-gradient(180deg, #0a1712 0, #0a1712 150px, var(--paper) 150px, var(--paper) 100%);
+    linear-gradient(180deg, #0a1712 0, #0a1712 226px, var(--paper) 226px, var(--paper) 100%);
 }
 
 .telegram-button,
@@ -285,6 +285,7 @@ select:focus {
 .catalog-panel {
   min-width: 0;
   color: var(--ink);
+  padding-top: 8px;
 }
 
 .toolbar select {
@@ -575,7 +576,7 @@ select:focus {
     overflow: hidden;
     padding: 16px 10px 48px;
     background:
-      linear-gradient(180deg, #0a1712 0, #0a1712 740px, var(--paper) 740px, var(--paper) 100%);
+      linear-gradient(180deg, #0a1712 0, #0a1712 760px, var(--paper) 760px, var(--paper) 100%);
   }
 
   .filters,
