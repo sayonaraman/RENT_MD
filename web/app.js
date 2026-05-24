@@ -401,7 +401,7 @@ function bindEvents() {
       renderListings();
     });
   }
-  els.resetTop.addEventListener("click", resetFilters);
+  if (els.resetTop) els.resetTop.addEventListener("click", resetFilters);
   els.grid.addEventListener("click", (event) => {
     const button = event.target.closest("[data-open]");
     if (button) openListing(button.dataset.open);
