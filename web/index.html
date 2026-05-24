@@ -17,47 +17,14 @@
             <small>Residence Bureau</small>
           </span>
         </a>
-        <nav class="nav">
-          <a href="#catalog">Коллекция</a>
-          <a href="#insights">Индекс</a>
-          <a href="#contact">Консьерж</a>
-        </nav>
+        <div class="top-title">Актуальная аренда Кишинева</div>
         <button class="ghost-button" id="resetTop">Reset</button>
       </header>
 
       <main>
-        <section class="hero">
-          <div class="hero-media" aria-hidden="true"></div>
-          <div class="hero-content">
-            <p class="eyebrow">Private rental intelligence</p>
-            <h1>Rent MD Collection</h1>
-            <p class="hero-copy">
-              Курируемая витрина аренды из Telegram-канала: актуальные статусы,
-              чистые фильтры и презентация объектов в формате премиального бюро.
-            </p>
-            <div class="hero-actions">
-              <a class="hero-button" href="#catalog">Смотреть коллекцию</a>
-              <span>8 проверенных объектов</span>
-            </div>
-          </div>
-          <div class="hero-index">
-            <div><span>Districts</span><strong>02</strong></div>
-            <div><span>Live listings</span><strong>07</strong></div>
-            <div><span>From</span><strong>390 EUR</strong></div>
-          </div>
-        </section>
-
         <section class="workspace" id="catalog">
           <aside class="filters" aria-label="Фильтры">
-            <div class="filters-head">
-              <span>Concierge filters</span>
-              <strong id="resultCount">0</strong>
-            </div>
-
-            <label class="field">
-              <span>Поиск</span>
-              <input id="searchInput" type="search" placeholder="Улица, район, особенность" />
-            </label>
+            <span id="resultCount" hidden>0</span>
 
             <label class="field">
               <span>Район</span>
@@ -87,23 +54,14 @@
               </div>
             </div>
 
-            <div class="field">
-              <span>Статус</span>
-              <div class="segmented stacked" id="statusFilter">
-                <button class="is-active" data-value="all">Все</button>
-                <button data-value="active">Свободна</button>
-                <button data-value="reserved">Бронь</button>
-              </div>
-            </div>
-
             <label class="toggle">
               <input id="petsFilter" type="checkbox" />
-              <span>Можно с животными</span>
+              <span>Животные</span>
             </label>
 
             <label class="toggle">
               <input id="kidsFilter" type="checkbox" />
-              <span>Можно с детьми</span>
+              <span>Дети</span>
             </label>
 
             <label class="toggle">
@@ -116,7 +74,7 @@
             <div class="catalog-head">
               <div>
                 <p class="eyebrow">Telegram listings, curated</p>
-                <h2>Private residences</h2>
+                <h2>Каталог</h2>
               </div>
               <div class="toolbar">
                 <select id="sortFilter" aria-label="Сортировка">

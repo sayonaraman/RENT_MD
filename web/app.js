@@ -292,6 +292,7 @@ function renderListings() {
 }
 
 function setSegment(container, value) {
+  if (!container) return;
   [...container.querySelectorAll("button")].forEach((button) => {
     button.classList.toggle("is-active", button.dataset.value === value);
   });
@@ -311,7 +312,6 @@ function resetFilters() {
     sort: "fresh",
   });
 
-  els.search.value = "";
   els.district.value = "all";
   els.minPrice.value = "";
   els.maxPrice.value = "";
@@ -319,6 +319,7 @@ function resetFilters() {
   els.kids.checked = false;
   els.newBuild.checked = false;
   els.sort.value = "fresh";
+  if (els.search) els.search.value = "";
   setSegment(els.rooms, "all");
   setSegment(els.status, "all");
   renderListings();
@@ -353,10 +354,12 @@ function openListing(id) {
 }
 
 function bindEvents() {
-  els.search.addEventListener("input", (event) => {
-    state.search = event.target.value;
-    renderListings();
-  });
+  if (els.search) {
+    els.search.addEventListener("input", (event) => {
+      state.search = event.target.value;
+      renderListings();
+    });
+  }
   els.district.addEventListener("change", (event) => {
     state.district = event.target.value;
     renderListings();
@@ -376,13 +379,15 @@ function bindEvents() {
     setSegment(els.rooms, state.rooms);
     renderListings();
   });
-  els.status.addEventListener("click", (event) => {
-    const button = event.target.closest("button");
-    if (!button) return;
-    state.status = button.dataset.value;
-    setSegment(els.status, state.status);
-    renderListings();
-  });
+  if (els.status) {
+    els.status.addEventListener("click", (event) => {
+      const button = event.target.closest("button");
+      if (!button) return;
+      state.status = button.dataset.value;
+      setSegment(els.status, state.status);
+      renderListings();
+    });
+  }
   els.pets.addEventListener("change", (event) => {
     state.pets = event.target.checked;
     renderListings();
