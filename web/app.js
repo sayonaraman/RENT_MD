@@ -183,6 +183,9 @@ const els = {
   empty: document.querySelector("#emptyState"),
   search: document.querySelector("#searchInput"),
   district: document.querySelector("#districtFilter"),
+  districtSelect: document.querySelector("#districtSelect"),
+  districtTrigger: document.querySelector("#districtTrigger"),
+  districtMenu: document.querySelector("#districtMenu"),
   minPrice: document.querySelector("#minPrice"),
   maxPrice: document.querySelector("#maxPrice"),
   rooms: document.querySelector("#roomsFilter"),
@@ -206,13 +209,39 @@ function statusLabel(status) {
 }
 
 function populateDistricts() {
-  const districts = [...new Set(listings.map((item) => item.district))].sort();
-  districts.forEach((district) => {
-    const option = document.createElement("option");
-    option.value = district;
-    option.textContent = district;
-    els.district.append(option);
+  const districts = ["all", ...new Set(listings.map((item) => item.district))].sort((a, b) => {
+    if (a === "all") return -1;
+    if (b === "all") return 1;
+    return a.localeCompare(b, "ru");
   });
+
+  if (els.district) {
+    districts.slice(1).forEach((district) => {
+      const option = document.createElement("option");
+      option.value = district;
+      option.textContent = district;
+      els.district.append(option);
+    });
+  }
+
+  if (els.districtMenu) {
+    els.districtMenu.innerHTML = districts.map((district) => `
+      <button type="button" role="option" data-value="${district}" aria-selected="${district === state.district}">
+        ${district === "all" ? "Все районы" : district}
+      </button>
+    `).join("");
+  }
+}
+
+function updateDistrictSelect() {
+  const label = state.district === "all" ? "Все районы" : state.district;
+  if (els.districtTrigger) els.districtTrigger.querySelector("span").textContent = label;
+  if (els.districtMenu) {
+    [...els.districtMenu.querySelectorAll("[data-value]")].forEach((option) => {
+      option.setAttribute("aria-selected", String(option.dataset.value === state.district));
+    });
+  }
+  if (els.district) els.district.value = state.district;
 }
 
 function getFilteredListings() {
@@ -307,7 +336,8 @@ function resetFilters() {
     newBuild: false,
   });
 
-  els.district.value = "all";
+  if (els.district) els.district.value = "all";
+  updateDistrictSelect();
   els.minPrice.value = "";
   els.maxPrice.value = "";
   els.pets.checked = false;
@@ -355,10 +385,34 @@ function bindEvents() {
       renderListings();
     });
   }
-  els.district.addEventListener("change", (event) => {
-    state.district = event.target.value;
-    renderListings();
-  });
+  if (els.district) {
+    els.district.addEventListener("change", (event) => {
+      state.district = event.target.value;
+      updateDistrictSelect();
+      renderListings();
+    });
+  }
+  if (els.districtTrigger && els.districtMenu && els.districtSelect) {
+    els.districtTrigger.addEventListener("click", () => {
+      const isOpen = !els.districtMenu.hidden;
+      els.districtMenu.hidden = isOpen;
+      els.districtTrigger.setAttribute("aria-expanded", String(!isOpen));
+    });
+    els.districtMenu.addEventListener("click", (event) => {
+      const option = event.target.closest("[data-value]");
+      if (!option) return;
+      state.district = option.dataset.value;
+      updateDistrictSelect();
+      els.districtMenu.hidden = true;
+      els.districtTrigger.setAttribute("aria-expanded", "false");
+      renderListings();
+    });
+    document.addEventListener("click", (event) => {
+      if (els.districtSelect.contains(event.target)) return;
+      els.districtMenu.hidden = true;
+      els.districtTrigger.setAttribute("aria-expanded", "false");
+    });
+  }
   els.minPrice.addEventListener("input", (event) => {
     state.minPrice = event.target.value;
     renderListings();

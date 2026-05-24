@@ -30,9 +30,12 @@
 
             <label class="field">
               <span>Район</span>
-              <select id="districtFilter">
-                <option value="all">Все районы</option>
-              </select>
+              <div class="custom-select" id="districtSelect">
+                <button type="button" class="select-trigger" id="districtTrigger" aria-haspopup="listbox" aria-expanded="false">
+                  <span>Все районы</span>
+                </button>
+                <div class="select-menu" id="districtMenu" role="listbox" hidden></div>
+              </div>
             </label>
 
             <div class="range-grid">
