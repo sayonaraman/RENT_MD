@@ -285,10 +285,6 @@ function renderListings() {
     <article class="listing-card" data-open="${item.id}" tabindex="0" role="button" aria-label="Открыть ${item.title}">
       <div class="image-wrap">
         <img src="${item.image}" alt="${item.title}" loading="lazy" />
-        <div class="badge-row">
-          <span class="status ${item.status}">${statusLabel(item.status)}</span>
-          ${item.video ? '<span class="media-badge">Видео</span>' : '<span class="media-badge">Фото</span>'}
-        </div>
       </div>
       <div class="card-body">
         <div class="card-top">

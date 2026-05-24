@@ -412,19 +412,7 @@ select:focus {
   filter: saturate(0.9) contrast(1.02);
 }
 
-.badge-row {
-  position: absolute;
-  left: 14px;
-  right: 14px;
-  bottom: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.status,
-.media-badge {
+.status {
   min-height: 30px;
   display: inline-flex;
   align-items: center;
@@ -532,7 +520,7 @@ select:focus {
 }
 
 .listing-dialog {
-  width: min(980px, calc(100% - 28px));
+  width: min(1180px, calc(100% - 28px));
   max-height: min(820px, calc(100vh - 28px));
   padding: 0;
   border: 1px solid var(--line);
@@ -561,7 +549,7 @@ select:focus {
 
 .dialog-layout {
   display: grid;
-  grid-template-columns: 1.08fr 0.92fr;
+  grid-template-columns: minmax(0, 1.7fr) minmax(320px, 0.8fr);
   max-height: min(820px, calc(100vh - 28px));
 }
 
