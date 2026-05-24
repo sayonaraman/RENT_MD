@@ -345,6 +345,7 @@ function openListing(id) {
   const item = listings.find((listing) => listing.id === Number(id));
   if (!item) return;
   const photos = [item.image, ...galleryImages.filter((image) => image !== item.image)].slice(0, 4);
+  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${item.address}, ${item.district}, Chisinau`)}`;
   state.activePhotos = photos;
   state.activePhotoIndex = 0;
   els.dialogContent.innerHTML = `
@@ -364,16 +365,19 @@ function openListing(id) {
         </div>
       </section>
       <section class="dialog-info">
-        <span class="status ${item.status}">${statusLabel(item.status)}</span>
         <h2>${formatPrice(item.price)}</h2>
         <p class="eyebrow">${item.district}</p>
         <h3>${item.title}</h3>
-        <p>${item.description}</p>
-        <div class="detail-list">
-          <div><span>Адрес</span><strong>${item.address}</strong></div>
-          <div><span>Комнаты</span><strong>${item.rooms}</strong></div>
-          <div><span>Этаж</span><strong>${item.floor}</strong></div>
+        <div class="dialog-address-row">
+          <a class="map-link" href="${mapsUrl}" target="_blank" rel="noreferrer" aria-label="Открыть адрес на карте">
+            <span aria-hidden="true">⌖</span>
+          </a>
+          <div>
+            <span>${item.district} · ${item.address}</span>
+            <strong>${item.rooms} комнат${item.rooms === 1 ? "а" : "ы"} · ${item.floor} этаж</strong>
+          </div>
         </div>
+        <p>${item.description}</p>
         <div class="features">${item.features.map((feature) => `<span>${feature}</span>`).join("")}</div>
       </section>
     </div>
