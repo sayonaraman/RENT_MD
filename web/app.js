@@ -296,8 +296,8 @@ function renderListings() {
         <h2>${item.title}</h2>
         <div class="district">${item.district} · ${item.address}</div>
         <div class="meta">
-          <span><strong>${item.rooms}</strong>комнат</span>
-          <span><strong>${item.floor}</strong>этаж</span>
+          <span><strong>${item.rooms}</strong> комнат${item.rooms === 1 ? "а" : "ы"}</span>
+          <span><strong>${item.floor}</strong> этаж</span>
         </div>
         <div class="features">
           ${item.features.map((feature) => `<span>${feature}</span>`).join("")}

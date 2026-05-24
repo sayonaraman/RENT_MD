@@ -463,27 +463,26 @@ select:focus {
 }
 
 .meta {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   gap: 8px;
-  margin: 16px 0;
+  margin: 14px 0 12px;
 }
 
 .meta span {
-  min-height: 48px;
-  display: grid;
-  align-content: center;
-  gap: 2px;
-  border-top: 1px solid rgba(25, 23, 18, 0.16);
-  color: var(--muted);
-  font-size: 11px;
-  text-transform: uppercase;
+  min-height: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid rgba(181, 138, 50, 0.28);
+  color: #5a4d34;
+  font-size: 12px;
+  padding: 0 9px;
 }
 
 .meta strong {
   color: var(--ink);
-  font-size: 16px;
-  text-transform: none;
+  font-size: 13px;
 }
 
 .features {
