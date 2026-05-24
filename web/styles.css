@@ -309,15 +309,17 @@ select:focus {
 
 .listing-card {
   overflow: hidden;
-  border: 1px solid rgba(25, 23, 18, 0.14);
+  border: 1px solid rgba(181, 138, 50, 0.58);
   background: #fbf5e8;
   box-shadow: 0 18px 48px rgba(24, 19, 11, 0.08);
-  transition: transform 180ms ease, box-shadow 180ms ease;
+  transform-origin: center;
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
 }
 
 .listing-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 34px 70px rgba(24, 19, 11, 0.18);
+  transform: scale(1.018);
+  border-color: rgba(228, 196, 111, 0.92);
+  box-shadow: 0 34px 76px rgba(24, 19, 11, 0.2);
 }
 
 .image-wrap {
