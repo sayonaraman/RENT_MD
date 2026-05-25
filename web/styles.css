@@ -141,6 +141,45 @@ main {
   font-size: 12px;
 }
 
+.language-switch {
+  display: inline-grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid rgba(228, 196, 111, 0.28);
+  background: rgba(4, 17, 13, 0.34);
+}
+
+.language-switch button {
+  min-width: 34px;
+  min-height: 28px;
+  border: 0;
+  border-right: 1px solid rgba(228, 196, 111, 0.18);
+  background: transparent;
+  color: rgba(245, 239, 226, 0.72);
+  padding: 0 8px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.language-switch button:last-child {
+  border-right: 0;
+}
+
+.language-switch button.is-active {
+  background: rgba(228, 196, 111, 0.9);
+  color: #120e08;
+}
+
+.language-switch button:hover,
+.language-switch button:focus-visible {
+  color: var(--gold);
+}
+
+.language-switch button.is-active:hover,
+.language-switch button.is-active:focus-visible {
+  color: #120e08;
+}
+
 .nav {
   display: flex;
   align-items: center;

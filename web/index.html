@@ -14,23 +14,28 @@
   <body>
     <div class="shell">
       <header class="topbar">
-        <a class="brand" href="#" aria-label="Rent MD Collection">
+        <a class="brand" href="#" aria-label="Rent MD">
           <span class="brand-mark">R</span>
           <span>
             <strong>Rent MD</strong>
             <small>Residence Bureau</small>
           </span>
         </a>
-        <div class="top-title">Актуальная аренда Кишинева</div>
+        <div class="top-title" data-i18n="headline">Актуальная аренда Кишинева</div>
+        <div class="language-switch" id="languageSwitch" aria-label="Выбор языка">
+          <button type="button" class="is-active" data-lang="ru">RU</button>
+          <button type="button" data-lang="ro">RO</button>
+          <button type="button" data-lang="en">EN</button>
+        </div>
       </header>
 
       <main>
         <section class="workspace" id="catalog">
-          <aside class="filters" aria-label="Фильтры">
+          <aside class="filters" aria-label="Фильтры" data-i18n-aria="filters">
             <span id="resultCount" hidden>0</span>
 
             <label class="field">
-              <span>Район</span>
+              <span data-i18n="district">Район</span>
               <div class="custom-select" id="districtSelect">
                 <button type="button" class="select-trigger" id="districtTrigger" aria-haspopup="listbox" aria-expanded="false">
                   <span>Все районы</span>
@@ -41,19 +46,19 @@
 
             <div class="range-grid">
               <label class="field">
-                <span>Цена от</span>
+                <span data-i18n="priceFrom">Цена от</span>
                 <input id="minPrice" type="number" min="0" step="50" placeholder="300" />
               </label>
               <label class="field">
-                <span>До</span>
+                <span data-i18n="priceTo">До</span>
                 <input id="maxPrice" type="number" min="0" step="50" placeholder="900" />
               </label>
             </div>
 
             <div class="field">
-              <span>Комнаты</span>
+              <span data-i18n="rooms">Комнаты</span>
               <div class="segmented" id="roomsFilter">
-                <button type="button" class="is-active" data-value="all">Все</button>
+                <button type="button" class="is-active" data-value="all" data-i18n="all">Все</button>
                 <button type="button" data-value="1">1</button>
                 <button type="button" data-value="2">2</button>
                 <button type="button" data-value="3">3</button>
@@ -62,32 +67,32 @@
 
             <label class="toggle">
               <input id="petsFilter" type="checkbox" />
-              <span>Животные</span>
+              <span data-i18n="pets">Животные</span>
             </label>
 
             <label class="toggle">
               <input id="kidsFilter" type="checkbox" />
-              <span>Дети</span>
+              <span data-i18n="kids">Дети</span>
             </label>
 
             <label class="toggle">
               <input id="newBuildFilter" type="checkbox" />
-              <span>Новострой</span>
+              <span data-i18n="newBuild">Новострой</span>
             </label>
           </aside>
 
           <section class="catalog-panel">
             <div class="listing-grid" id="listingGrid"></div>
             <div class="empty-state" id="emptyState" hidden>
-              <strong>Нет подходящих объявлений</strong>
-              <button type="button" id="resetEmpty">Показать все</button>
+              <strong data-i18n="emptyTitle">Нет подходящих объявлений</strong>
+              <button type="button" id="resetEmpty" data-i18n="showAll">Показать все</button>
             </div>
           </section>
         </section>
       </main>
 
       <footer class="site-footer">
-        <span>Rent MD Residence Bureau © 2026</span>
+        <span data-i18n="footer">Rent MD Residence Bureau © 2026</span>
       </footer>
     </div>
 

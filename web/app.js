@@ -170,9 +170,129 @@ const state = {
   pets: false,
   kids: false,
   newBuild: false,
+  lang: "ru",
   activePhotos: [],
   activePhotoIndex: 0,
+  activeListingId: null,
 };
+
+const translations = {
+  ru: {
+    pageTitle: "Rent MD",
+    headline: "Актуальная аренда Кишинева",
+    filters: "Фильтры",
+    district: "Район",
+    allDistricts: "Все районы",
+    priceFrom: "Цена от",
+    priceTo: "До",
+    rooms: "Комнаты",
+    all: "Все",
+    pets: "Животные",
+    kids: "Дети",
+    newBuild: "Новострой",
+    emptyTitle: "Нет подходящих объявлений",
+    showAll: "Показать все",
+    footer: "Rent MD Residence Bureau © 2026",
+    openListing: "Открыть",
+    objectId: "ID объекта",
+    roomOne: "комната",
+    roomFew: "комнаты",
+    floor: "этаж",
+    prevPhoto: "Предыдущее фото",
+    nextPhoto: "Следующее фото",
+    photo: "Фото",
+    openMap: "Открыть адрес на карте",
+    close: "Закрыть",
+  },
+  ro: {
+    pageTitle: "Rent MD",
+    headline: "Chirie actuala in Chisinau",
+    filters: "Filtre",
+    district: "Sector",
+    allDistricts: "Toate sectoarele",
+    priceFrom: "Pret de la",
+    priceTo: "Pana la",
+    rooms: "Camere",
+    all: "Toate",
+    pets: "Animale",
+    kids: "Copii",
+    newBuild: "Bloc nou",
+    emptyTitle: "Nu exista anunturi potrivite",
+    showAll: "Arata toate",
+    footer: "Rent MD Residence Bureau © 2026",
+    openListing: "Deschide",
+    objectId: "ID obiect",
+    roomOne: "camera",
+    roomFew: "camere",
+    floor: "etaj",
+    prevPhoto: "Fotografia precedenta",
+    nextPhoto: "Fotografia urmatoare",
+    photo: "Foto",
+    openMap: "Deschide adresa pe harta",
+    close: "Inchide",
+  },
+  en: {
+    pageTitle: "Rent MD",
+    headline: "Current Rentals in Chisinau",
+    filters: "Filters",
+    district: "District",
+    allDistricts: "All districts",
+    priceFrom: "Price from",
+    priceTo: "To",
+    rooms: "Rooms",
+    all: "All",
+    pets: "Pets",
+    kids: "Kids",
+    newBuild: "New build",
+    emptyTitle: "No matching listings",
+    showAll: "Show all",
+    footer: "Rent MD Residence Bureau © 2026",
+    openListing: "Open",
+    objectId: "Object ID",
+    roomOne: "room",
+    roomFew: "rooms",
+    floor: "floor",
+    prevPhoto: "Previous photo",
+    nextPhoto: "Next photo",
+    photo: "Photo",
+    openMap: "Open address on map",
+    close: "Close",
+  },
+};
+
+const districtLabels = {
+  ru: {
+    "Чокана": "Чокана",
+    "Рышкановка": "Рышкановка",
+  },
+  ro: {
+    "Чокана": "Ciocana",
+    "Рышкановка": "Riscani",
+  },
+  en: {
+    "Чокана": "Ciocana",
+    "Рышкановка": "Riscani",
+  },
+};
+
+function t(key) {
+  return translations[state.lang][key] || translations.ru[key] || key;
+}
+
+function districtName(district) {
+  if (district === "all") return t("allDistricts");
+  return districtLabels[state.lang][district] || district;
+}
+
+function roomLabel(count) {
+  return count === 1 ? t("roomOne") : t("roomFew");
+}
+
+function dateLocale() {
+  if (state.lang === "ro") return "ro-RO";
+  if (state.lang === "en") return "en-GB";
+  return "ru-RU";
+}
 
 const els = {
   grid: document.querySelector("#listingGrid"),
@@ -200,10 +320,11 @@ const els = {
   dialog: document.querySelector("#listingDialog"),
   dialogContent: document.querySelector("#dialogContent"),
   closeDialog: document.querySelector("#closeDialog"),
+  languageSwitch: document.querySelector("#languageSwitch"),
 };
 
 function formatPrice(price) {
-  return `${price.toLocaleString("ru-RU")} EUR`;
+  return `${price.toLocaleString(dateLocale())} EUR`;
 }
 
 function statusLabel(status) {
@@ -229,21 +350,44 @@ function populateDistricts() {
   if (els.districtMenu) {
     els.districtMenu.innerHTML = districts.map((district) => `
       <button type="button" role="option" data-value="${district}" aria-selected="${district === state.district}">
-        ${district === "all" ? "Все районы" : district}
+        ${districtName(district)}
       </button>
     `).join("");
   }
 }
 
 function updateDistrictSelect() {
-  const label = state.district === "all" ? "Все районы" : state.district;
+  const label = districtName(state.district);
   if (els.districtTrigger) els.districtTrigger.querySelector("span").textContent = label;
+  if (els.districtMenu) {
+    [...els.districtMenu.querySelectorAll("[data-value]")].forEach((option) => {
+      option.textContent = districtName(option.dataset.value);
+    });
+  }
   if (els.districtMenu) {
     [...els.districtMenu.querySelectorAll("[data-value]")].forEach((option) => {
       option.setAttribute("aria-selected", String(option.dataset.value === state.district));
     });
   }
   if (els.district) els.district.value = state.district;
+}
+
+function applyTranslations() {
+  document.documentElement.lang = state.lang;
+  document.title = t("pageTitle");
+  document.querySelectorAll("[data-i18n]").forEach((element) => {
+    element.textContent = t(element.dataset.i18n);
+  });
+  document.querySelectorAll("[data-i18n-aria]").forEach((element) => {
+    element.setAttribute("aria-label", t(element.dataset.i18nAria));
+  });
+  if (els.closeDialog) els.closeDialog.setAttribute("aria-label", t("close"));
+  if (els.languageSwitch) {
+    [...els.languageSwitch.querySelectorAll("[data-lang]")].forEach((button) => {
+      button.classList.toggle("is-active", button.dataset.lang === state.lang);
+    });
+  }
+  updateDistrictSelect();
 }
 
 function getFilteredListings() {
@@ -283,7 +427,7 @@ function renderListings() {
   renderStats(items);
   els.empty.hidden = items.length > 0;
   els.grid.innerHTML = items.map((item) => `
-    <article class="listing-card" data-open="${item.id}" tabindex="0" role="button" aria-label="Открыть ${item.title}">
+    <article class="listing-card" data-open="${item.id}" tabindex="0" role="button" aria-label="${t("openListing")} ${item.title}">
       <div class="image-wrap">
         <img src="${item.image}" alt="${item.title}" loading="lazy" />
       </div>
@@ -292,13 +436,13 @@ function renderListings() {
           <div>
             <div class="price">${formatPrice(item.price)}</div>
           </div>
-          <div class="district">${new Date(item.date).toLocaleDateString("ru-RU")}</div>
+          <div class="district">${new Date(item.date).toLocaleDateString(dateLocale())}</div>
         </div>
         <h2>${item.title}</h2>
-        <div class="district">${item.district} · ${item.address}</div>
+        <div class="district">${districtName(item.district)} · ${item.address}</div>
         <div class="meta">
-          <span><strong>${item.rooms}</strong> комнат${item.rooms === 1 ? "а" : "ы"}</span>
-          <span><strong>${item.floor}</strong> этаж</span>
+          <span><strong>${item.rooms}</strong> ${roomLabel(item.rooms)}</span>
+          <span><strong>${item.floor}</strong> ${t("floor")}</span>
         </div>
         <div class="features">
           ${item.features.map((feature) => `<span>${feature}</span>`).join("")}
@@ -349,28 +493,29 @@ function openListing(id) {
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${item.address}, ${item.district}, Chisinau`)}`;
   state.activePhotos = photos;
   state.activePhotoIndex = 0;
+  state.activeListingId = item.id;
   els.dialogContent.innerHTML = `
     <div class="dialog-layout">
       <section class="dialog-gallery">
         <div class="dialog-photo-stage">
           <img class="dialog-main-image" src="${photos[0]}" alt="${item.title}" />
-          <button type="button" class="gallery-arrow prev" data-gallery-step="-1" aria-label="Предыдущее фото">‹</button>
-          <button type="button" class="gallery-arrow next" data-gallery-step="1" aria-label="Следующее фото">›</button>
+          <button type="button" class="gallery-arrow prev" data-gallery-step="-1" aria-label="${t("prevPhoto")}">‹</button>
+          <button type="button" class="gallery-arrow next" data-gallery-step="1" aria-label="${t("nextPhoto")}">›</button>
         </div>
         <div class="dialog-thumbs">
           ${photos.map((photo, index) => `
-            <button type="button" class="${index === 0 ? "is-active" : ""}" data-photo="${photo}" aria-label="Фото ${index + 1}">
+            <button type="button" class="${index === 0 ? "is-active" : ""}" data-photo="${photo}" aria-label="${t("photo")} ${index + 1}">
               <img src="${photo}" alt="" />
             </button>
           `).join("")}
         </div>
       </section>
       <section class="dialog-info">
-        <div class="object-id">ID объекта ${item.id}</div>
+        <div class="object-id">${t("objectId")} ${item.id}</div>
         <h2>${formatPrice(item.price)}</h2>
         <h3>${item.title}</h3>
         <div class="dialog-address-row">
-          <a class="map-link" href="${mapsUrl}" target="_blank" rel="noreferrer" aria-label="Открыть адрес на карте">
+          <a class="map-link" href="${mapsUrl}" target="_blank" rel="noreferrer" aria-label="${t("openMap")}">
             <svg aria-hidden="true" viewBox="0 0 32 32" class="map-pin-icon">
               <path class="pin-shape" d="M16 3.2c-5 0-9 4-9 9 0 7.1 9 16.2 9 16.2s9-9.1 9-16.2c0-5-4-9-9-9Z" />
               <circle class="pin-hole" cx="16" cy="12.2" r="3.3" />
@@ -379,8 +524,8 @@ function openListing(id) {
             </svg>
           </a>
           <div>
-            <span>${item.district} · ${item.address}</span>
-            <strong>${item.rooms} комнат${item.rooms === 1 ? "а" : "ы"} · ${item.floor} этаж</strong>
+            <span>${districtName(item.district)} · ${item.address}</span>
+            <strong>${item.rooms} ${roomLabel(item.rooms)} · ${item.floor} ${t("floor")}</strong>
           </div>
         </div>
         <p>${item.description}</p>
@@ -481,6 +626,16 @@ function bindEvents() {
   }
   if (els.resetTop) els.resetTop.addEventListener("click", resetFilters);
   if (els.resetEmpty) els.resetEmpty.addEventListener("click", resetFilters);
+  if (els.languageSwitch) {
+    els.languageSwitch.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-lang]");
+      if (!button || button.dataset.lang === state.lang) return;
+      state.lang = button.dataset.lang;
+      applyTranslations();
+      renderListings();
+      if (els.dialog.open && state.activeListingId) openListing(state.activeListingId);
+    });
+  }
   els.grid.addEventListener("click", (event) => {
     const card = event.target.closest("[data-open]");
     if (card) openListing(card.dataset.open);
@@ -511,5 +666,6 @@ function bindEvents() {
 }
 
 populateDistricts();
+applyTranslations();
 bindEvents();
 renderListings();
