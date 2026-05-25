@@ -72,15 +72,17 @@ button {
 }
 
 .topbar::before {
-  opacity: 0.58;
+  opacity: 0.52;
   background:
-    radial-gradient(circle at 12% 24%, rgba(245, 239, 226, 0.9) 0 1px, transparent 1.8px),
-    radial-gradient(circle at 28% 68%, rgba(228, 196, 111, 0.75) 0 1px, transparent 1.7px),
-    radial-gradient(circle at 47% 18%, rgba(245, 239, 226, 0.72) 0 1px, transparent 1.8px),
-    radial-gradient(circle at 68% 58%, rgba(228, 196, 111, 0.7) 0 1px, transparent 1.7px),
-    radial-gradient(circle at 86% 30%, rgba(245, 239, 226, 0.78) 0 1px, transparent 1.8px);
-  background-size: 290px 92px, 360px 92px, 430px 92px, 330px 92px, 390px 92px;
-  animation: starDrift 18s linear infinite, starPulse 5.8s ease-in-out infinite;
+    radial-gradient(circle at 7% 28%, rgba(245, 239, 226, 0.86) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 16% 72%, rgba(228, 196, 111, 0.64) 0 0.8px, transparent 1.6px),
+    radial-gradient(circle at 28% 18%, rgba(245, 239, 226, 0.72) 0 0.9px, transparent 1.7px),
+    radial-gradient(circle at 41% 62%, rgba(228, 196, 111, 0.68) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 55% 30%, rgba(245, 239, 226, 0.82) 0 0.9px, transparent 1.7px),
+    radial-gradient(circle at 69% 70%, rgba(228, 196, 111, 0.62) 0 0.8px, transparent 1.6px),
+    radial-gradient(circle at 82% 22%, rgba(245, 239, 226, 0.76) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 94% 58%, rgba(228, 196, 111, 0.64) 0 0.9px, transparent 1.7px);
+  animation: starTwinkle 6.2s ease-in-out infinite;
 }
 
 .topbar::after {
@@ -88,8 +90,7 @@ button {
   background:
     linear-gradient(105deg, transparent 18%, rgba(228, 196, 111, 0.08) 45%, transparent 72%),
     radial-gradient(circle at 38% 45%, rgba(228, 196, 111, 0.18), transparent 34%);
-  transform: translateX(-18%);
-  animation: headerGlow 12s ease-in-out infinite;
+  animation: headerGlow 9s ease-in-out infinite;
 }
 
 .topbar > * {
@@ -151,37 +152,27 @@ button {
   letter-spacing: 0;
 }
 
-@keyframes starDrift {
-  from {
-    background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
-  }
-
-  to {
-    background-position: 290px 0, -360px 0, 430px 0, -330px 0, 390px 0;
-  }
-}
-
-@keyframes starPulse {
+@keyframes starTwinkle {
   0%,
   100% {
-    opacity: 0.42;
+    opacity: 0.36;
+    filter: drop-shadow(0 0 1px rgba(228, 196, 111, 0.12));
   }
 
   50% {
-    opacity: 0.72;
+    opacity: 0.68;
+    filter: drop-shadow(0 0 3px rgba(228, 196, 111, 0.32));
   }
 }
 
 @keyframes headerGlow {
   0%,
   100% {
-    opacity: 0.16;
-    transform: translateX(-22%);
+    opacity: 0.14;
   }
 
   50% {
-    opacity: 0.36;
-    transform: translateX(18%);
+    opacity: 0.3;
   }
 }
 
