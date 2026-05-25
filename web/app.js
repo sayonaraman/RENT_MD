@@ -181,6 +181,8 @@ const els = {
   avgPrice: document.querySelector("#avgPrice"),
   activeCount: document.querySelector("#activeCount"),
   districtCount: document.querySelector("#districtCount"),
+  empty: document.querySelector("#emptyState"),
+  resetEmpty: document.querySelector("#resetEmpty"),
   search: document.querySelector("#searchInput"),
   district: document.querySelector("#districtFilter"),
   districtSelect: document.querySelector("#districtSelect"),
@@ -279,6 +281,7 @@ function renderStats(items) {
 function renderListings() {
   const items = getFilteredListings();
   renderStats(items);
+  els.empty.hidden = items.length > 0;
   els.grid.innerHTML = items.map((item) => `
     <article class="listing-card" data-open="${item.id}" tabindex="0" role="button" aria-label="Открыть ${item.title}">
       <div class="image-wrap">
@@ -476,6 +479,7 @@ function bindEvents() {
     });
   }
   if (els.resetTop) els.resetTop.addEventListener("click", resetFilters);
+  if (els.resetEmpty) els.resetEmpty.addEventListener("click", resetFilters);
   els.grid.addEventListener("click", (event) => {
     const card = event.target.closest("[data-open]");
     if (card) openListing(card.dataset.open);
