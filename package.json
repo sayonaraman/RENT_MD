@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "export:listings": "node export_neon_to_web.mjs"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.1.0"
+  }
+}

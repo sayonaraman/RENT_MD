@@ -1,4 +1,4 @@
-const listings = [
+const demoListings = [
   {
     id: 685605,
     title: "1-комнатная квартира на Ginta Latina",
@@ -153,6 +153,8 @@ const listings = [
   },
 ];
 
+let listings = [...demoListings];
+
 const galleryImages = [
   "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85",
   "https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?auto=format&fit=crop&w=1200&q=85",
@@ -292,6 +294,42 @@ function dateLocale() {
   if (state.lang === "ro") return "ro-RO";
   if (state.lang === "en") return "en-GB";
   return "ru-RU";
+}
+
+function normalizeListing(item, index) {
+  const fallback = demoListings[index % demoListings.length];
+  return {
+    id: Number(item.id || item.first_message_id || fallback.id),
+    title: item.title || fallback.title,
+    district: item.district || fallback.district,
+    address: item.address || fallback.address,
+    price: Number(item.price || item.price_eur || fallback.price),
+    rooms: Number(item.rooms || fallback.rooms),
+    floor: item.floor || fallback.floor,
+    status: item.status || "active",
+    date: item.date || item.posted_at || fallback.date,
+    image: item.image || fallback.image,
+    video: Boolean(item.video ?? item.has_video ?? fallback.video),
+    kids: Boolean(item.kids ?? item.allows_kids ?? fallback.kids),
+    pets: Boolean(item.pets ?? item.has_pets ?? fallback.pets),
+    newBuild: Boolean(item.newBuild ?? item.is_new_build ?? fallback.newBuild),
+    source: item.source || fallback.source,
+    description: item.description || item.raw_text || fallback.description,
+    features: Array.isArray(item.features) ? item.features : fallback.features,
+    mediaCount: Number(item.mediaCount || item.media_count || 0),
+  };
+}
+
+async function loadListings() {
+  try {
+    const response = await fetch("./listings.json", { cache: "no-store" });
+    if (!response.ok) return;
+    const importedListings = await response.json();
+    if (!Array.isArray(importedListings) || importedListings.length === 0) return;
+    listings = importedListings.map(normalizeListing);
+  } catch {
+    listings = [...demoListings];
+  }
 }
 
 const els = {
@@ -665,7 +703,12 @@ function bindEvents() {
   els.closeDialog.addEventListener("click", () => els.dialog.close());
 }
 
-populateDistricts();
-applyTranslations();
-bindEvents();
-renderListings();
+async function init() {
+  await loadListings();
+  populateDistricts();
+  applyTranslations();
+  bindEvents();
+  renderListings();
+}
+
+init();
