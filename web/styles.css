@@ -712,7 +712,7 @@ select:focus {
   background: rgba(4, 17, 13, 0.94);
   color: var(--gold);
   font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: 0;
   text-transform: none;
@@ -797,7 +797,7 @@ select:focus {
 
   .site-footer {
     min-height: 46px;
-    font-size: 20px;
+    font-size: 17px;
     text-align: center;
   }
 }
