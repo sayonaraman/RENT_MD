@@ -1,4 +1,8 @@
 .env
+.env.neon
 .venv/
+node_modules/
 __pycache__/
 *.pyc
+.DS_Store
+.neon_*.json
