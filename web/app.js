@@ -366,6 +366,7 @@ function openListing(id) {
         </div>
       </section>
       <section class="dialog-info">
+        <div class="object-id">ID объекта ${item.id}</div>
         <h2>${formatPrice(item.price)}</h2>
         <h3>${item.title}</h3>
         <div class="dialog-address-row">

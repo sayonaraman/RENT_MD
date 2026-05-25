@@ -757,6 +757,14 @@ select:focus {
   padding: 42px;
 }
 
+.object-id {
+  color: var(--gold-deep);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .dialog-info h2 {
   margin: 12px 0 10px;
   color: var(--ink);
