@@ -605,6 +605,10 @@ select:focus {
   box-shadow: 0 18px 48px rgba(24, 19, 11, 0.06);
 }
 
+.empty-state[hidden] {
+  display: none;
+}
+
 .empty-state strong {
   color: var(--ink);
   font-family: Georgia, "Times New Roman", serif;
