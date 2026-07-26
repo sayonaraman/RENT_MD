@@ -31,8 +31,8 @@ from telethon.sessions import StringSession
 from telethon.tl.functions.messages import ForwardMessagesRequest
 
 SOURCE_CHAT = -1001662737751
-TARGET_CHAT = -1003168733101
-TARGET_TOPIC = 17
+TARGET_CHAT = -1004448506771
+TARGET_TOPIC = None
 DAYS = 5
 MIN_PRICE_EUR = 450
 MAX_PRICE_EUR = 700
@@ -292,8 +292,13 @@ def _save_set(path: Path, data: set) -> None:
 
 async def purge_topic(client: TelegramClient) -> int:
     ids = []
-    async for m in client.iter_messages(TARGET_CHAT, reply_to=TARGET_TOPIC):
-        if m.id == TARGET_TOPIC:
+    kwargs = {"reply_to": TARGET_TOPIC} if TARGET_TOPIC is not None else {}
+    async for m in client.iter_messages(TARGET_CHAT, **kwargs):
+        if TARGET_TOPIC is not None and m.id == TARGET_TOPIC:
+            continue
+        if TARGET_TOPIC is None and not (
+            m.fwd_from or (m.message or "").startswith("Пешком от ")
+        ):
             continue
         ids.append(m.id)
     deleted = 0
@@ -392,13 +397,14 @@ async def main() -> int:
                 continue
             ids = [m.id for m in sorted(batch, key=lambda m: m.id)]
             try:
-                await client(ForwardMessagesRequest(
+                request = ForwardMessagesRequest(
                     from_peer=SOURCE_CHAT,
                     id=ids,
                     random_id=[generate_random_long() for _ in ids],
                     to_peer=TARGET_CHAT,
-                    top_msg_id=TARGET_TOPIC,
-                ))
+                    **({"top_msg_id": TARGET_TOPIC} if TARGET_TOPIC is not None else {}),
+                )
+                await client(request)
                 forwarded += 1
                 seen.add(h)
                 _save_set(SEEN_FILE, seen)
@@ -406,7 +412,7 @@ async def main() -> int:
                     await client.send_message(
                         TARGET_CHAT,
                         format_route_note(listing),
-                        reply_to=TARGET_TOPIC,
+                        **({"reply_to": TARGET_TOPIC} if TARGET_TOPIC is not None else {}),
                         link_preview=False,
                     )
                 except Exception as e:

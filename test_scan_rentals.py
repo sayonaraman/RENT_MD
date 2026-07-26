@@ -1,13 +1,25 @@
 import unittest
 from unittest.mock import patch
 
-from scan_rentals import LocationResolver, format_route_note, parse_listing
+from scan_rentals import (
+    LocationResolver,
+    TARGET_CHAT,
+    TARGET_TOPIC,
+    format_route_note,
+    parse_listing,
+)
 
 
 TWO_ROOM = """🏠  2-комнатная квартира
 📍  Рышкановка, str. Matei Basarab, 9/1
 💲  550€ от 1 месяца
 """
+
+
+class DestinationTests(unittest.TestCase):
+    def test_telegram_source_uses_the_same_channel_as_999(self):
+        self.assertEqual(TARGET_CHAT, -1004448506771)
+        self.assertIsNone(TARGET_TOPIC)
 
 
 class ListingFilterTests(unittest.TestCase):
